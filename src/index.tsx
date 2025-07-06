@@ -4,6 +4,19 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+// Global error handler for unhandled errors
+window.addEventListener('error', (event) => {
+  console.error('Global error:', event.error);
+  // Prevent "Script error" messages from external scripts
+  if (event.message === 'Script error.' && !event.filename) {
+    event.preventDefault();
+  }
+});
+
+window.addEventListener('unhandledrejection', (event) => {
+  console.error('Unhandled promise rejection:', event.reason);
+});
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );

@@ -1,13 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'San Francisco', 'Helvetica Neue', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(135deg, #B8D4E3 0%, #87CEEB 100%);
+  min-height: 100vh;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+/* Flip clock animations */
+@keyframes flip-down {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+.animate-flip-down {
+  animation: flip-down 0.3s ease-in-out;
+}
+
+/* Flip fold animation */
+@keyframes flip-fold {
+  0% {
+    transform: rotateX(0deg);
+  }
+  100% {
+    transform: rotateX(-90deg);
+  }
+}
+
+.animate-flip-fold {
+  animation: flip-fold 0.3s ease-in-out forwards;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+/* Flip clock (pqina) customization - minimal approach */
+.tick {
+  font-family: -apple-system, BlinkMacSystemFont, 'San Francisco', 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Style separators (colons) */
+.tick .tick-text-inline {
+  color: #718096 !important;
+  font-size: 2rem !important;
+  font-weight: 300 !important;
+  margin: 0 0.25rem !important;
+}
+
+.flip-digit .tick {
+  width: auto !important;
+  height: auto !important;
+}
+
+/* Flip clock container */
+.flip-clock-container {
+  min-width: fit-content;
+  display: inline-block;
+  position: relative;
+  overflow: visible;
+}
+
+/* Hide the watermark */
+.tick-credits {
+  display: none !important;
 }
