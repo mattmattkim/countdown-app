@@ -1,46 +1,93 @@
-# Getting Started with Create React App
+# Countdown App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A beautiful React TypeScript application for tracking important dates and events with flip-style countdown timers.
+
+## Features
+
+- 📅 **Event Management** - Create, edit, delete, and complete events
+- ⏰ **Flip-Style Timers** - Animated countdown displays using the Pqina Flip library
+- 💾 **Local Storage** - All events and settings persist between sessions
+- 🎨 **Modern UI** - Clean, responsive design with TailwindCSS
+- 📱 **Mobile Friendly** - Works great on all screen sizes
+- 🎯 **Event Categories** - Organize events by type (birthday, anniversary, holiday, etc.)
+- ✅ **Event Completion** - Mark past events as completed
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v14 or higher)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/mattmattkim/countdown-app.git
+cd countdown-app
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Start the development server:
+```bash
+npm start
+```
+
+The app will open at [http://localhost:3000](http://localhost:3000).
 
 ## Available Scripts
 
-In the project directory, you can run:
+- `npm start` - Run development server
+- `npm test` - Run tests in watch mode
+- `npm run build` - Build for production
+- `npm run eject` - Eject from Create React App (one-way operation)
 
-### `npm start`
+## Usage
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Adding Events
+1. Click the "+" button to add a new event
+2. Choose an emoji, enter a title, and select a date
+3. Optionally add a category and notes
+4. Click "Add Event" to save
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Viewing Countdowns
+- Events are displayed as cards showing time remaining
+- Click any event card to see a detailed countdown view
+- The flip-style timer shows hours, minutes, and seconds
 
-### `npm test`
+### Managing Events
+- Use the menu (⋮) on each card to edit or delete events
+- Mark events as completed when they've passed
+- Access settings from the bottom navigation
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Technologies Used
 
-### `npm run build`
+- **React 19** with TypeScript
+- **TailwindCSS** for styling
+- **@pqina/flip** for flip-style countdown animations
+- **lucide-react** for icons
+- **date-fns** for date utilities
+- **Create React App** (not ejected)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Project Structure
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
+src/
+├── components/       # React components
+├── contexts/        # React Context for state management
+├── types/           # TypeScript type definitions
+├── utils/           # Utility functions
+└── index.css        # Global styles and Tailwind imports
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Contributing
 
-### `npm run eject`
+Feel free to submit issues and pull requests!
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## License
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+This project is open source and available under the MIT License.
