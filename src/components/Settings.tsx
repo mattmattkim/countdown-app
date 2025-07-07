@@ -1,7 +1,8 @@
 import React from 'react';
 import { useEvents } from '../contexts/EventsContext';
 import { DEFAULT_THEMES } from '../types';
-import { ChevronLeft, Bell, Volume2, User } from 'lucide-react';
+import { ChevronLeft, Bell, Volume2, User, LogOut } from 'lucide-react';
+import { clearAuth } from '../utils/auth';
 
 interface SettingsProps {
   onBack: () => void;
@@ -9,6 +10,11 @@ interface SettingsProps {
 
 export const Settings: React.FC<SettingsProps> = ({ onBack }) => {
   const { settings, updateSettings } = useEvents();
+  
+  const handleLogout = () => {
+    clearAuth();
+    window.location.reload();
+  };
 
   return (
     <div className="min-h-screen p-4">
@@ -93,6 +99,17 @@ export const Settings: React.FC<SettingsProps> = ({ onBack }) => {
                   <p className="text-sm text-gray-500">Counting down together</p>
                 </div>
               </div>
+            </div>
+
+            {/* Logout Button */}
+            <div className="border-t pt-6">
+              <button
+                onClick={handleLogout}
+                className="w-full flex items-center justify-center space-x-2 p-3 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors"
+              >
+                <LogOut className="w-5 h-5" />
+                <span>Logout</span>
+              </button>
             </div>
 
             {/* App Info */}

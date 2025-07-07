@@ -1,47 +1,23 @@
-import { differenceInSeconds, format, isBefore, differenceInMonths, differenceInDays, differenceInHours, differenceInMinutes } from 'date-fns';
+import { differenceInSeconds, format, isBefore, differenceInMonths, differenceInDays, differenceInHours, differenceInMinutes, intervalToDuration } from 'date-fns';
 import { CountdownDisplay } from '../types';
 
 export const calculateCountdown = (targetDate: Date): CountdownDisplay => {
   const now = new Date();
   const isPast = isBefore(targetDate, now);
   
-  const start = isPast ? targetDate : now;
-  const end = isPast ? now : targetDate;
-  
-  // Calculate total difference in various units
-  const totalDays = differenceInDays(end, start);
-  const totalHours = differenceInHours(end, start);
-  const totalMinutes = differenceInMinutes(end, start);
-  const totalSeconds = differenceInSeconds(end, start);
-  
-  // Calculate years and remaining months
-  const totalMonths = differenceInMonths(end, start);
-  const years = Math.floor(totalMonths / 12);
-  const months = totalMonths % 12;
-  
-  // Calculate remaining days after accounting for complete months
-  const startPlusYearsAndMonths = new Date(start);
-  startPlusYearsAndMonths.setFullYear(startPlusYearsAndMonths.getFullYear() + years);
-  startPlusYearsAndMonths.setMonth(startPlusYearsAndMonths.getMonth() + months);
-  const days = differenceInDays(end, startPlusYearsAndMonths);
-  
-  // Calculate remaining time after accounting for days
-  const startPlusAllDays = new Date(startPlusYearsAndMonths);
-  startPlusAllDays.setDate(startPlusAllDays.getDate() + days);
-  
-  // Get the remaining hours, minutes, and seconds
-  const remainingSeconds = differenceInSeconds(end, startPlusAllDays);
-  const hours = Math.floor(remainingSeconds / 3600) % 24;
-  const minutes = Math.floor((remainingSeconds % 3600) / 60);
-  const seconds = remainingSeconds % 60;
+  // Use intervalToDuration for accurate calculation
+  const duration = intervalToDuration({
+    start: isPast ? targetDate : now,
+    end: isPast ? now : targetDate
+  });
 
   return {
-    years,
-    months,
-    days,
-    hours: Math.abs(hours),
-    minutes: Math.abs(minutes),
-    seconds: Math.abs(seconds),
+    years: duration.years || 0,
+    months: duration.months || 0,
+    days: duration.days || 0,
+    hours: duration.hours || 0,
+    minutes: duration.minutes || 0,
+    seconds: duration.seconds || 0,
     isExpired: isPast,
     isPast
   };
