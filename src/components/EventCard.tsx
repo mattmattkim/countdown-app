@@ -123,7 +123,7 @@ export const EventCard: React.FC<EventCardProps> = ({ event, onClick, onEdit, on
           
           {/* Live countdown/countup display */}
           {!event.isCompleted && (
-            <div className="py-4 flex justify-center" style={{ transform: 'scale(1.5)', transformOrigin: 'center' }}>
+            <div className="py-6 px-4 flex justify-center" style={{ transform: 'scale(1.5)', transformOrigin: 'center' }}>
               <FlipClockPqina
                 units={getSmartTimeUnits(countdown)}
                 compact={true}

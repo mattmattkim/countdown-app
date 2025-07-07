@@ -1,41 +1,23 @@
-import { differenceInSeconds, format, isBefore, differenceInMonths, differenceInDays, differenceInHours, differenceInMinutes } from 'date-fns';
+import { differenceInSeconds, format, isBefore, differenceInMonths, differenceInDays, differenceInHours, differenceInMinutes, intervalToDuration } from 'date-fns';
 import { CountdownDisplay } from '../types';
 
 export const calculateCountdown = (targetDate: Date): CountdownDisplay => {
   const now = new Date();
   const isPast = isBefore(targetDate, now);
   
-  const start = isPast ? targetDate : now;
-  const end = isPast ? now : targetDate;
-  
-  // Calculate the differences
-  const totalMonths = differenceInMonths(end, start);
-  const years = Math.floor(totalMonths / 12);
-  const months = totalMonths % 12;
-  
-  // For days, we need to get the remaining days after accounting for complete months
-  const startPlusMonths = new Date(start);
-  startPlusMonths.setMonth(startPlusMonths.getMonth() + totalMonths);
-  const days = differenceInDays(end, startPlusMonths);
-  
-  // Calculate total seconds remaining after accounting for months and days
-  const startPlusMonthsAndDays = new Date(startPlusMonths);
-  startPlusMonthsAndDays.setDate(startPlusMonthsAndDays.getDate() + days);
-  
-  const totalSecondsRemaining = differenceInSeconds(end, startPlusMonthsAndDays);
-  
-  // Calculate hours, minutes, and seconds from the remaining time
-  const hours = Math.floor(totalSecondsRemaining / 3600) % 24;
-  const minutes = Math.floor((totalSecondsRemaining % 3600) / 60);
-  const seconds = totalSecondsRemaining % 60;
+  // Use intervalToDuration for accurate calculation
+  const duration = intervalToDuration({
+    start: isPast ? targetDate : now,
+    end: isPast ? now : targetDate
+  });
 
   return {
-    years,
-    months,
-    days,
-    hours,
-    minutes,
-    seconds,
+    years: duration.years || 0,
+    months: duration.months || 0,
+    days: duration.days || 0,
+    hours: duration.hours || 0,
+    minutes: duration.minutes || 0,
+    seconds: duration.seconds || 0,
     isExpired: isPast,
     isPast
   };

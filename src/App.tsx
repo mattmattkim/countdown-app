@@ -1,18 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { EventsProvider, useEvents } from './contexts/EventsContext';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { Layout } from './components/Layout';
 import { EventsList } from './components/EventsList';
 import { AddEventModal } from './components/AddEventModal';
 import { Settings } from './components/Settings';
+import { PasswordProtect } from './components/PasswordProtect';
 import { Event } from './types';
 import { Calendar, Settings as SettingsIcon } from 'lucide-react';
+import { checkAuth } from './utils/auth';
 
 const AppContent: React.FC = () => {
   const { allEventsSorted, addEvent, updateEvent, deleteEvent, completeEvent } = useEvents();
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingEvent, setEditingEvent] = useState<Event | null>(null);
   const [currentView, setCurrentView] = useState<'events' | 'settings'>('events');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+
+  useEffect(() => {
+    // Check if user has valid auth cookie
+    const hasAuth = checkAuth();
+    setIsAuthenticated(hasAuth);
+    setIsCheckingAuth(false);
+  }, []);
 
   const handleEditEvent = (event: Event) => {
     setEditingEvent(event);
@@ -63,6 +74,19 @@ const AppContent: React.FC = () => {
         );
     }
   };
+
+  if (isCheckingAuth) {
+    // Show loading state while checking authentication
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-gray-500">Loading...</div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <PasswordProtect onAuthenticated={() => setIsAuthenticated(true)} />;
+  }
 
   return (
     <Layout>
