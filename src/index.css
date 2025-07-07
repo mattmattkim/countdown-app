@@ -75,3 +75,25 @@ code {
 .tick-credits {
   display: none !important;
 }
+
+/* Flip clock with labels */
+.flip-units-container {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.flip-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.flip-unit-label {
+  font-size: 11px;
+  color: #6b7280;
+  text-transform: lowercase;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Event } from '../types';
-import { getDaysUntil, formatEventDate, isEventToday, isEventPast, calculateCountdown } from '../utils/dateHelpers';
+import { getDaysUntil, formatEventDate, isEventToday, isEventPast, calculateCountdown, getSmartTimeUnits } from '../utils/dateHelpers';
 import { MoreVertical, Trash2, Edit2, CheckCircle } from 'lucide-react';
 import { FlipClockPqina } from './FlipClockPqina';
 
@@ -123,11 +123,9 @@ export const EventCard: React.FC<EventCardProps> = ({ event, onClick, onEdit, on
           
           {/* Live countdown/countup display */}
           {!event.isCompleted && (
-            <div className="py-4" style={{ transform: 'scale(1.2)', transformOrigin: 'center' }}>
+            <div className="py-4 flex justify-center" style={{ transform: 'scale(1.5)', transformOrigin: 'center' }}>
               <FlipClockPqina
-                hours={countdown.hours}
-                minutes={countdown.minutes}
-                seconds={countdown.seconds}
+                units={getSmartTimeUnits(countdown)}
                 compact={true}
               />
             </div>
@@ -137,31 +135,6 @@ export const EventCard: React.FC<EventCardProps> = ({ event, onClick, onEdit, on
             <span className="inline-block px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-600">
               ✓ Completed
             </span>
-          )}
-          
-          {!event.isCompleted && (
-            <div className="flex flex-wrap gap-2">
-              {countdown.years > 0 && (
-                <span className="inline-block px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-600">
-                  {countdown.years} {countdown.years === 1 ? 'year' : 'years'}
-                </span>
-              )}
-              {countdown.months > 0 && (
-                <span className="inline-block px-2 py-1 text-xs font-medium rounded-full bg-purple-100 text-purple-600">
-                  {countdown.months} {countdown.months === 1 ? 'month' : 'months'}
-                </span>
-              )}
-              {countdown.days > 0 && (
-                <span className="inline-block px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-600">
-                  {countdown.days} {countdown.days === 1 ? 'day' : 'days'}
-                </span>
-              )}
-              {statusBadge && countdown.years === 0 && countdown.months === 0 && countdown.days === 0 && (
-                <span className={`inline-block px-2 py-1 text-xs font-medium rounded-full ${statusBadge.color}`}>
-                  {statusBadge.text}
-                </span>
-              )}
-            </div>
           )}
           
           {event.notes && (
