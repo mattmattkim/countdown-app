@@ -8,34 +8,40 @@ export const calculateCountdown = (targetDate: Date): CountdownDisplay => {
   const start = isPast ? targetDate : now;
   const end = isPast ? now : targetDate;
   
-  // Calculate the differences
+  // Calculate total difference in various units
+  const totalDays = differenceInDays(end, start);
+  const totalHours = differenceInHours(end, start);
+  const totalMinutes = differenceInMinutes(end, start);
+  const totalSeconds = differenceInSeconds(end, start);
+  
+  // Calculate years and remaining months
   const totalMonths = differenceInMonths(end, start);
   const years = Math.floor(totalMonths / 12);
   const months = totalMonths % 12;
   
-  // For days, we need to get the remaining days after accounting for complete months
-  const startPlusMonths = new Date(start);
-  startPlusMonths.setMonth(startPlusMonths.getMonth() + totalMonths);
-  const days = differenceInDays(end, startPlusMonths);
+  // Calculate remaining days after accounting for complete months
+  const startPlusYearsAndMonths = new Date(start);
+  startPlusYearsAndMonths.setFullYear(startPlusYearsAndMonths.getFullYear() + years);
+  startPlusYearsAndMonths.setMonth(startPlusYearsAndMonths.getMonth() + months);
+  const days = differenceInDays(end, startPlusYearsAndMonths);
   
-  // Calculate total seconds remaining after accounting for months and days
-  const startPlusMonthsAndDays = new Date(startPlusMonths);
-  startPlusMonthsAndDays.setDate(startPlusMonthsAndDays.getDate() + days);
+  // Calculate remaining time after accounting for days
+  const startPlusAllDays = new Date(startPlusYearsAndMonths);
+  startPlusAllDays.setDate(startPlusAllDays.getDate() + days);
   
-  const totalSecondsRemaining = differenceInSeconds(end, startPlusMonthsAndDays);
-  
-  // Calculate hours, minutes, and seconds from the remaining time
-  const hours = Math.floor(totalSecondsRemaining / 3600) % 24;
-  const minutes = Math.floor((totalSecondsRemaining % 3600) / 60);
-  const seconds = totalSecondsRemaining % 60;
+  // Get the remaining hours, minutes, and seconds
+  const remainingSeconds = differenceInSeconds(end, startPlusAllDays);
+  const hours = Math.floor(remainingSeconds / 3600) % 24;
+  const minutes = Math.floor((remainingSeconds % 3600) / 60);
+  const seconds = remainingSeconds % 60;
 
   return {
     years,
     months,
     days,
-    hours,
-    minutes,
-    seconds,
+    hours: Math.abs(hours),
+    minutes: Math.abs(minutes),
+    seconds: Math.abs(seconds),
     isExpired: isPast,
     isPast
   };
